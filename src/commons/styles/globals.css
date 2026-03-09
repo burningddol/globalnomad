@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
+:root {
+  --font-pretendard: var(--font-pretendard);
+}
+
 @layer base {
   body {
-    font-family: "Pretendard", sans-serif;
+    font-family: var(--font-pretendard), sans-serif;
   }
 
   * {
