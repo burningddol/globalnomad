@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import "@/commons/styles/globals.css";
 import { ModalProvider } from "@/components/ui/modal";
+import FooterWrapper from "@/components/ui/Footer/FooterWrapper";
 
 const pretendard = localFont({
   src: [
@@ -24,8 +25,9 @@ export default function RootLayout({
   return (
     <html lang="ko" className={pretendard.variable}>
       <body className={pretendard.className}>
-          <ModalProvider>{children}</ModalProvider>
-        </body>
+        <ModalProvider>{children}</ModalProvider>
+        <FooterWrapper />
+      </body>
     </html>
   );
 }
