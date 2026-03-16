@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "@/commons/styles/globals.css";
+import { DialogProvider } from "@/components/ui/dialog";
 
 const pretendard = localFont({
   src: [
@@ -22,7 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={pretendard.variable}>
-      <body className={pretendard.className}>{children}</body>
+      <body className={pretendard.className}>
+        <DialogProvider>{children}</DialogProvider>
+      </body>
     </html>
   );
 }
