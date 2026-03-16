@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Pagination,
   PaginationContent,
@@ -6,41 +8,82 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/Pagination/Pagination";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function PaginationPage() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+
+  const handlePageChange = (pageNumber: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", pageNumber.toString());
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
   return (
     <>
       <h2 className="mb-[40px]">페이지네이션 화면</h2>
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" disabled />
+            <PaginationPrevious
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+            />
           </PaginationItem>
 
           <PaginationItem>
-            <PaginationLink href="#" isActive>
+            <PaginationLink
+              onClick={() => handlePageChange(1)}
+              isActive={currentPage === 1}
+            >
               1
             </PaginationLink>
           </PaginationItem>
 
           <PaginationItem>
-            <PaginationLink href="#">2</PaginationLink>
+            <PaginationLink
+              onClick={() => handlePageChange(2)}
+              isActive={currentPage === 2}
+            >
+              2
+            </PaginationLink>
           </PaginationItem>
 
           <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
+            <PaginationLink
+              onClick={() => handlePageChange(3)}
+              isActive={currentPage === 3}
+            >
+              3
+            </PaginationLink>
           </PaginationItem>
 
           <PaginationItem>
-            <PaginationLink href="#">4</PaginationLink>
+            <PaginationLink
+              onClick={() => handlePageChange(4)}
+              isActive={currentPage === 4}
+            >
+              4
+            </PaginationLink>
           </PaginationItem>
 
           <PaginationItem>
-            <PaginationLink href="#">5</PaginationLink>
+            <PaginationLink
+              onClick={() => handlePageChange(5)}
+              isActive={currentPage === 5}
+            >
+              5
+            </PaginationLink>
           </PaginationItem>
 
           <PaginationItem>
-            <PaginationNext href="#" />
+            <PaginationNext
+              onClick={() => handlePageChange(Math.min(5, currentPage + 1))}
+              disabled={currentPage === 5}
+            />
           </PaginationItem>
         </PaginationContent>
       </Pagination>

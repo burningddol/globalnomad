@@ -35,21 +35,22 @@ function PaginationItem({ ...props }: React.ComponentProps<"li">) {
 type PaginationLinkProps = {
   isActive?: boolean;
   disabled?: boolean;
-} & React.ComponentProps<"a">;
+} & React.ComponentProps<"button">;
 
 function PaginationLink({
   className,
   isActive,
   disabled = false,
+  children,
   ...props
 }: PaginationLinkProps) {
   return (
     <PaginationButton
-      asChild
       variant={isActive ? "outline" : "ghost"}
       className={cn(
         "relative w-[40px] h-[40px]",
         "text-[14px] leading-[24px] font-medium tracking-[-2.5%] text-[#B3B4BC]",
+        "cursor-pointer",
         isActive && [
           "font-bold text-[#1F1F22] border-none",
           "after:content-['']",
@@ -60,15 +61,9 @@ function PaginationLink({
         disabled && "pointer-events-none opacity-50 cursor-not-allowed",
         className,
       )}
+      {...props}
     >
-      <a
-        aria-current={isActive ? "page" : undefined}
-        data-slot="pagination-link"
-        data-active={isActive}
-        aria-disabled={disabled}
-        tabIndex={disabled ? -1 : undefined}
-        {...props}
-      />
+      {children}
     </PaginationButton>
   );
 }

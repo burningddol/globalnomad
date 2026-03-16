@@ -1,14 +1,11 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Slot } from "radix-ui";
 import { cn } from "@/commons/utils/cn";
 
 export interface PaginationButtonProps
   extends
     React.ComponentProps<"button">,
-    VariantProps<typeof paginationButtonVariants> {
-  asChild?: boolean;
-}
+    VariantProps<typeof paginationButtonVariants> {}
 
 const paginationButtonVariants = cva(
   "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
@@ -31,18 +28,18 @@ const paginationButtonVariants = cva(
 function PaginationButton({
   className,
   variant = "default",
-  asChild = false,
+  children,
   ...props
 }: PaginationButtonProps) {
-  const Comp = asChild ? Slot.Root : "button";
-
   return (
-    <Comp
+    <button
       data-slot="button"
       data-variant={variant}
       className={cn(paginationButtonVariants({ variant, className }))}
       {...props}
-    />
+    >
+      {children}
+    </button>
   );
 }
 
