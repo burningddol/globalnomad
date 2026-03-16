@@ -8,90 +8,66 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function SignupPage() {
-  const { control, errors, isValid, onFormSubmit } = useSignup();
+  const { register, control, errors, isValid, onFormSubmit } = useSignup();
 
   return (
     <div>
       <div className="container">
         <Link href="/">auth 로고 이미지 추가 예정</Link>
         <form onSubmit={onFormSubmit}>
-          <Controller
-            name="email"
-            control={control}
-            render={({ field }) => (
-              <>
-                <label htmlFor={field.name}>이메일</label>
-                <input
-                  {...field}
-                  type="text"
-                  id={field.name}
-                  placeholder="이메일을 입력해주세요"
-                />
-                {errors.email?.message && (
-                  <div className="active">{errors.email?.message}</div>
-                )}
-              </>
+          <>
+            <label htmlFor="email">이메일</label>
+            <input
+              {...register("email")}
+              type="text"
+              id="email"
+              placeholder="이메일을 입력해주세요"
+            />
+            {errors.email?.message && (
+              <div className="active">{errors.email?.message}</div>
             )}
-          />
+          </>
 
-          <Controller
-            name="nickname"
-            control={control}
-            render={({ field }) => (
-              <>
-                <label htmlFor={field.name}>닉네임</label>
-                <input
-                  {...field}
-                  type="text"
-                  id={field.name}
-                  placeholder="닉네임을 입력해주세요"
-                />
-                {errors.nickname?.message && (
-                  <div className="active">{errors.nickname?.message}</div>
-                )}
-              </>
+          <>
+            <label htmlFor="nickname">닉네임</label>
+            <input
+              {...register("nickname")}
+              type="text"
+              id="nickname"
+              placeholder="닉네임을 입력해주세요"
+            />
+            {errors.nickname?.message && (
+              <div className="active">{errors.nickname?.message}</div>
             )}
-          />
+          </>
 
-          <Controller
-            name="password"
-            control={control}
-            render={({ field }) => (
-              <>
-                <label htmlFor={field.name}>비밀번호</label>
-                <input
-                  {...field}
-                  type="password"
-                  id={field.name}
-                  placeholder="8자 이상 입력해 주세요"
-                />
-                {errors.password?.message && (
-                  <div className="active">{errors.password?.message}</div>
-                )}
-              </>
+          <>
+            <label htmlFor="password">비밀번호</label>
+            <input
+              {...register("password")}
+              type="password"
+              id="password"
+              placeholder="8자 이상 입력해 주세요"
+            />
+            {errors.password?.message && (
+              <div className="active">{errors.password?.message}</div>
             )}
-          />
+          </>
 
-          <Controller
-            name="passwordConfirmation"
-            control={control}
-            render={({ field }) => (
-              <>
-                <label htmlFor={field.name}>비밀번호 확인</label>
-                <input
-                  {...field}
-                  type="password"
-                  id={field.name}
-                  placeholder="비밀번호를 한 번 더 입력해 주세요"
-                />
-                {errors.passwordConfirmation?.message && (
-                  <div className="active">
-                    {errors.passwordConfirmation?.message}
-                  </div>
-                )}
-              </>
+          <>
+            <label htmlFor="passwordConfirmation">비밀번호 확인</label>
+            <input
+              {...register("passwordConfirmation")}
+              type="password"
+              id="passwordConfirmation"
+              placeholder="비밀번호를 한 번 더 입력해 주세요"
+            />
+            {errors.passwordConfirmation?.message && (
+              <div className="active">
+                {errors.passwordConfirmation?.message}
+              </div>
             )}
-          />
+          </>
 
           <Controller
             name="terms"

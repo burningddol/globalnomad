@@ -29,12 +29,13 @@ export type SignUpValues = z.infer<typeof signUpSchema>;
 
 export function useSignup() {
   const {
+    register,
     control,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(signUpSchema),
-    mode: "all",
+    mode: "onTouched",
     defaultValues: {
       email: "",
       nickname: "",
@@ -49,6 +50,7 @@ export function useSignup() {
   };
 
   return {
+    register,
     control,
     errors,
     isValid,

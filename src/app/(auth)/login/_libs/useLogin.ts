@@ -17,12 +17,12 @@ export type signInValues = z.infer<typeof signInSchema>;
 
 export function useLogin() {
   const {
-    control,
+    register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, touchedFields },
   } = useForm({
     resolver: zodResolver(signInSchema),
-    mode: "all",
+    mode: "onChange",
     defaultValues: {
       email: "",
       password: "",
@@ -34,9 +34,10 @@ export function useLogin() {
   };
 
   return {
-    control,
+    register,
     errors,
     isValid,
+    touchedFields,
     onFormSubmit: handleSubmit(onSubmit),
   };
 }
