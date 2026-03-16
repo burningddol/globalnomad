@@ -46,12 +46,7 @@ export default function LoginPage() {
         <div className="kakao-signin">
           <p>SNS 계정으로 로그인하기</p>
           <Button variant="secondary" size="lg">
-            <Image
-              width={24}
-              height={24}
-              src="/icons/kakao.svg"
-              alt="카카오 아이콘"
-            />
+            <Image width={24} height={24} src="/icons/kakao.svg" alt="" />
             카카오 로그인하기
           </Button>
         </div>

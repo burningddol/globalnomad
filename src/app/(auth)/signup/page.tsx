@@ -96,12 +96,7 @@ export default function SignupPage() {
         <div className="kakao-signup">
           <p>SNS 계정으로 회원가입하기</p>
           <Button variant="secondary" size="lg">
-            <Image
-              width={24}
-              height={24}
-              src="/icons/kakao.svg"
-              alt="카카오 아이콘"
-            />
+            <Image width={24} height={24} src="/icons/kakao.svg" alt="" />
             카카오 회원가입
           </Button>
         </div>
