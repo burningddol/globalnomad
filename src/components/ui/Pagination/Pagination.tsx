@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/commons/utils/cn";
-import { Button } from "@/components/ui/Pagination/Button";
+import { PaginationButton } from "@/components/ui/Pagination/Button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
@@ -44,7 +44,7 @@ function PaginationLink({
   ...props
 }: PaginationLinkProps) {
   return (
-    <Button
+    <PaginationButton
       asChild
       variant={isActive ? "outline" : "ghost"}
       className={cn(
@@ -69,7 +69,7 @@ function PaginationLink({
         tabIndex={disabled ? -1 : undefined}
         {...props}
       />
-    </Button>
+    </PaginationButton>
   );
 }
 

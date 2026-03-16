@@ -1,19 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { DropdownMenuCheckboxItem } from "@/components/ui/Dropdown/DropdownMenu";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { Button } from "@/components/ui/Dropdown/Button";
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+} from "@/components/ui/Dropdown/DropdownMenu";
+import { DropdownButton } from "@/components/ui/Dropdown/Button";
 
 export default function DropdownPage() {
-  const [showStatusBar, setShowStatusBar] = useState(true);
-  const [showActivityBar, setShowActivityBar] = useState(false);
-  const [showPanel, setShowPanel] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("옵션1");
 
   return (
     <>
@@ -21,28 +20,19 @@ export default function DropdownPage() {
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button>가격</Button>
+          <DropdownButton>{selectedOption}</DropdownButton>
         </DropdownMenuTrigger>
+
         <DropdownMenuContent className="w-40">
           <DropdownMenuGroup>
-            <DropdownMenuCheckboxItem
-              checked={showStatusBar ?? false}
-              onCheckedChange={setShowStatusBar}
+            <DropdownMenuRadioGroup
+              value={selectedOption}
+              onValueChange={setSelectedOption}
             >
-              옵션1 선택됨
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={showActivityBar}
-              onCheckedChange={setShowActivityBar}
-            >
-              옵션2
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={showPanel}
-              onCheckedChange={setShowPanel}
-            >
-              옵션3
-            </DropdownMenuCheckboxItem>
+              <DropdownMenuRadioItem value="옵션1">옵션1</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="옵션2">옵션2</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="옵션3">옵션3</DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
