@@ -36,7 +36,7 @@ export function DialogProvider({ children }: { children: ReactNode }) {
       <div inert={dialog ? true : undefined}>{children}</div>
       {dialog && (
         <DialogRenderer
-          dialog={dialog}
+          options={dialog}
           onClose={onClose}
           onConfirm={handleConfirm}
         />

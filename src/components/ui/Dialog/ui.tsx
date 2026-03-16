@@ -11,16 +11,63 @@ export interface DialogOptions {
 }
 
 interface DialogRendererProps {
-  dialog: DialogOptions;
+  options: DialogOptions;
   onClose: () => void;
   onConfirm: () => void;
 }
 
+type DialogConfig = {
+  containerClass: string;
+  icon?: ReactNode;
+  renderActions: (onClose: () => void, onConfirm: () => void) => ReactNode;
+};
+
+const DIALOG_CONFIG: Record<DialogOptions["type"], DialogConfig> = {
+  confirm: {
+    containerClass: "md:px-14 px-10",
+    icon: (
+      <Image
+        src="/icons/warning.svg"
+        alt="warning"
+        width={88}
+        height={88}
+        className="w-[49px] h-[49px] md:w-[88px] md:h-[88px]"
+      />
+    ),
+    renderActions: (onClose, onConfirm) => (
+      <div className="flex w-full gap-3">
+        <Button
+          autoFocus
+          variant="secondary"
+          size="sm"
+          onClick={onClose}
+          className="flex-1"
+        >
+          아니오
+        </Button>
+        <Button size="sm" onClick={onConfirm} className="flex-1">
+          네
+        </Button>
+      </div>
+    ),
+  },
+  alert: {
+    containerClass: "md:px-21 px-16",
+    renderActions: (onClose) => (
+      <Button autoFocus size="sm" onClick={onClose}>
+        확인
+      </Button>
+    ),
+  },
+};
+
 export function DialogRenderer({
-  dialog,
+  options,
   onClose,
   onConfirm,
 }: DialogRendererProps) {
+  const config = DIALOG_CONFIG[options.type];
+
   return (
     <div
       role="dialog"
@@ -30,43 +77,14 @@ export function DialogRenderer({
       <div
         className={cn(
           "flex w-[320px] md:w-[400px] flex-col items-center rounded-4xl bg-white py-6 md:py-8",
-          dialog.type === "confirm" ? "md:px-14 px-10 " : "md:px-21 px-16",
+          config.containerClass,
         )}
       >
-        {dialog.type === "confirm" && (
-          <Image
-            src="/icons/warning.svg"
-            alt="warning"
-            width={88}
-            height={88}
-            className="w-[49px] h-[49px] md:w-[88px] md:h-[88px]"
-          />
-        )}
-
+        {config.icon}
         <p className="whitespace-pre-line text-center text-base font-bold text-gray-800 mb-3 md:mb-5">
-          {dialog.content}
+          {options.content}
         </p>
-
-        {dialog.type === "confirm" ? (
-          <div className="flex w-full gap-3">
-            <Button
-              autoFocus
-              variant="secondary"
-              size="sm"
-              onClick={onClose}
-              className="flex-1"
-            >
-              아니오
-            </Button>
-            <Button size="sm" onClick={onConfirm} className="flex-1">
-              네
-            </Button>
-          </div>
-        ) : (
-          <Button autoFocus size="sm" onClick={onClose}>
-            확인
-          </Button>
-        )}
+        {config.renderActions(onClose, onConfirm)}
       </div>
     </div>
   );
