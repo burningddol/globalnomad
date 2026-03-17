@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/Checkbox/Checkbox";
 import { Button } from "@/components/ui/Buttons/Button";
 import Link from "next/link";
 import Image from "next/image";
-import { useModal } from "@/components/ui/modal";
+import { useModal } from "@/components/ui/Modal";
 import { TersmContent } from "./_components/TermsContent";
 
 export default function SignupPage() {
