@@ -18,6 +18,11 @@ export const signUpSchema = z
     terms: z.boolean().refine((val) => val === true, {
       message: "이용약관에 동의해주세요.",
     }),
+    passwordScore: z.number(),
+  })
+  .refine((data) => data.passwordScore >= 4, {
+    message: "비밀번호 보안 강도를 높여주세요.",
+    path: ["password"],
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: "비밀번호가 일치하지 않습니다.",
