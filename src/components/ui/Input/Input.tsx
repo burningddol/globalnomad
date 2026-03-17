@@ -9,9 +9,9 @@ import { Eye, EyeOff } from "lucide-react";
 const inputVariants = cva(
   cn(
     "w-full inline-flex rounded-2xl items-center justify-center border border-gray-100 bg-white",
-    "px-[20px] py-[19px] text-base leading-none",
+    "px-[20px] py-[16.5px] text-base text-[#1F1F22] leading-none",
     "leading-[100%] tracking-[-0.025em]",
-    "placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+    "placeholder-[#9FA0A7] focus-visible:outline-[#3D9EF2] focus-[#1F1F22] disabled:cursor-not-allowed disabled:opacity-50",
   ),
   {
     variants: {
@@ -105,9 +105,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               )}
             >
               {showPassword ? (
-                <Eye className="size-6" />
+                <Eye className="size-4.5" />
               ) : (
-                <EyeOff className="size-6" />
+                <EyeOff className="size-4.5" />
               )}
             </button>
           )}
