@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchema, signInValues } from "./login.schema";
+import { signInFormSchema, signInValues } from "./login.schema";
 import { useEffect } from "react";
 
 export function useLogin() {
@@ -11,7 +11,7 @@ export function useLogin() {
     handleSubmit,
     formState: { errors, isValid, touchedFields },
   } = useForm({
-    resolver: zodResolver(signInSchema),
+    resolver: zodResolver(signInFormSchema),
     mode: "onChange",
     defaultValues: {
       email: "",

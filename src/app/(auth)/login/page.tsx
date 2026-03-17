@@ -58,7 +58,7 @@ export default function LoginPage() {
             )}
           />
 
-          <Button type="submit" className={isValid ? "" : "disabled"}>
+          <Button type="submit" disabled={!isValid}>
             로그인하기
           </Button>
         </form>
