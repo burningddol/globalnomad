@@ -2,13 +2,22 @@
 
 import { Controller } from "react-hook-form";
 import { useSignup } from "./_libs/useSignUp";
+import { TersmContent } from "./_components/TermsContent";
 import { Checkbox } from "@/components/ui/Checkbox/Checkbox";
 import { Button } from "@/components/ui/Buttons/Button";
+import { useModal } from "@/components/ui/Modal";
+import { PasswordStrengthBar } from "@/components/ui/PasswordStrengthBar/PasswordStrengthBar";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function SignupPage() {
-  const { register, control, errors, isValid, onFormSubmit } = useSignup();
+  const { register, control, errors, isValid, onFormSubmit, passwordScore } =
+    useSignup();
+
+  const { showModal } = useModal();
+  const handleModalClick = () => {
+    showModal(<TersmContent />);
+  };
 
   return (
     <div>
@@ -49,6 +58,7 @@ export default function SignupPage() {
               id="password"
               placeholder="8자 이상 입력해 주세요"
             />
+            {<PasswordStrengthBar score={passwordScore} />}
             {errors.password?.message && (
               <div className="active">{errors.password?.message}</div>
             )}
@@ -81,7 +91,9 @@ export default function SignupPage() {
                   onBlur={field.onBlur}
                 />
                 <label htmlFor="terms">(필수) 이용약관 동의</label>
-                <button type="button">보기</button>
+                <button type="button" onClick={handleModalClick}>
+                  보기
+                </button>
                 {errors.terms?.message && (
                   <div className="active">{errors.terms?.message}</div>
                 )}
@@ -89,7 +101,7 @@ export default function SignupPage() {
             )}
           />
 
-          <Button type="submit" className={isValid ? "" : "disabled"}>
+          <Button type="submit" disabled={!isValid}>
             회원가입하기
           </Button>
         </form>
