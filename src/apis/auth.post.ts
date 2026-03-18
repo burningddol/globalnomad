@@ -8,7 +8,7 @@ export async function handleAuthPost(request: NextRequest, apiPath: string) {
   const cookieStore = await cookies();
   const body = await request.json();
 
-  const res = await fetch(`${API_BASE}/auth/${apiPath}`, {
+  const res = await fetch(`${API_BASE}/${apiPath}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),

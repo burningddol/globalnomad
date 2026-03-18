@@ -4,5 +4,5 @@ import axios from "./axios";
 export const postSignup = async (
   data: Omit<SignUpValues, "terms" | "passwordConfirmation" | "passwordScore">,
 ) => {
-  return await axios.post("/users", data);
+  return await axios.post("/signup", data);
 };
