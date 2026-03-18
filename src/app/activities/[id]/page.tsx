@@ -2,6 +2,7 @@ import { ActivityHeader } from "./_components/ActivityHeader";
 import { BannerImages } from "./_components/BannerImages";
 import { Description } from "./_components/Description";
 import type { Activity, Reviews } from "@/types/activities";
+import KakaoMap from "./_components/KakaoMap";
 
 export default function ActivityDetailPage() {
   return (
