@@ -1,7 +1,7 @@
 "use client";
 
 import Script from "next/script";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { MapPin } from "lucide-react";
 
@@ -19,7 +19,7 @@ interface KakaoMapProps {
 
 export default function KakaoMap({ address, title }: KakaoMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const label = title.length > 10 ? title.slice(0, 10) + "…" : title;
+  const [mapError, setMapError] = useState(false);
 
   const handleLoad = () => {
     window.kakao.maps.load(() => {
@@ -58,8 +58,8 @@ export default function KakaoMap({ address, title }: KakaoMapProps) {
 
           const span = document.createElement("span");
           span.className =
-            "text-sm font-semibold text-gray-900 whitespace-nowrap";
-          span.textContent = label;
+            "text-sm font-semibold text-gray-900 max-w-[120px] truncate";
+          span.textContent = title;
 
           const tail = document.createElement("div");
           tail.style.cssText =
@@ -75,6 +75,8 @@ export default function KakaoMap({ address, title }: KakaoMapProps) {
             yAnchor: 1.0,
           });
           overlay.setMap(map);
+        } else {
+          setMapError(true);
         }
       });
     });
@@ -93,10 +95,25 @@ export default function KakaoMap({ address, title }: KakaoMapProps) {
         <MapPin size={16} />
         {address}
       </span>
-      <div
-        ref={mapRef}
-        className="w-full h-[450px] rounded-2xl overflow-hidden mb-5 md:mb-10"
-      />
+      {mapError ? (
+        <div className="w-full h-[450px] rounded-2xl mb-5 md:mb-10 flex flex-col items-center justify-center gap-3 bg-gray-100 text-gray-500">
+          <MapPin size={32} className="text-gray-400" />
+          <p className="text-sm font-medium">주소를 찾을 수 없습니다.</p>
+          <a
+            href={`https://map.kakao.com/link/search/${encodeURIComponent(address)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-blue-500 underline"
+          >
+            카카오맵에서 직접 검색하기
+          </a>
+        </div>
+      ) : (
+        <div
+          ref={mapRef}
+          className="w-full h-[450px] rounded-2xl overflow-hidden mb-5 md:mb-10"
+        />
+      )}
       <hr />
     </>
   );
