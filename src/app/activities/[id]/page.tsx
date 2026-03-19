@@ -3,6 +3,7 @@ import { BannerImages } from "./_components/BannerImages";
 import { Description } from "./_components/Description";
 import type { Activity, Reviews } from "@/types/activities";
 import KakaoMap from "./_components/KakaoMap";
+import { ReviewCardList } from "./_components/ReviewCardList";
 
 export default function ActivityDetailPage() {
   return (
@@ -24,6 +25,8 @@ export default function ActivityDetailPage() {
         <Description content={MOCK_ACTIVITY.description} />
 
         <KakaoMap address={MOCK_ACTIVITY.address} title={MOCK_ACTIVITY.title} />
+
+        <ReviewCardList reviews={MOCK_REVIEWS} />
       </div>
     </div>
   );
