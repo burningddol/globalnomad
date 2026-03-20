@@ -1,3 +1,5 @@
+export const revalidate = 60;
+
 import { ActivityHeader } from "./_components/ActivityHeader";
 import { BannerImages } from "./_components/BannerImages";
 import { Description } from "./_components/Description";
