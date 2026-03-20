@@ -37,7 +37,7 @@ export async function tryRefresh(
     });
 
     return accessToken;
-  } catch (error) {
+  } catch {
     return null;
   }
 }

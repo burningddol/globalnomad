@@ -46,6 +46,7 @@ export function useLogin() {
   });
 
   const onSubmit = (data: signInValues) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { rememberEmail, ...signinData } = data;
     if (data.rememberEmail) localStorage.setItem("rememberedEmail", data.email);
     else localStorage.removeItem("rememberedEmail");
