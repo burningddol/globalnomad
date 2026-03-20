@@ -52,20 +52,24 @@ export function useKakaoOAuth() {
       try {
         await processLogin(authBaseData);
       } catch (error: unknown) {
-        if (axios.isAxiosError(error) && error.response?.status === 404) {
-          console.log("미가입 유저입니다. 회원가입을 진행합니다.");
+        if (axios.isAxiosError(error)) {
+          const status = error.response?.status;
 
-          try {
-            const signupData = {
-              token: code,
-              redirectUri: process.env.NEXT_PUBLIC_REDIRECT_URI || "",
-              nickname: generateRandomNickname(),
-            };
+          if (status === 404 || status === 403) {
+            console.log("미가입 유저입니다. 회원가입을 진행합니다.");
 
-            await postOAuthKaKaoSignup(signupData);
-            await processLogin(authBaseData);
-          } catch (signUpError: unknown) {
-            showErrorAndRedirect(signUpError);
+            try {
+              const signupData = {
+                token: code,
+                redirectUri: process.env.NEXT_PUBLIC_REDIRECT_URI || "",
+                nickname: generateRandomNickname(),
+              };
+
+              await postOAuthKaKaoSignup(signupData);
+              await processLogin(authBaseData);
+            } catch (signUpError: unknown) {
+              showErrorAndRedirect(signUpError);
+            }
           }
         } else {
           showErrorAndRedirect(error);
