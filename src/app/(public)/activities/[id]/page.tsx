@@ -4,8 +4,12 @@ import { Description } from "./_components/Description";
 import type { Activity, Reviews } from "@/types/activities";
 import KakaoMap from "./_components/KakaoMap";
 import { ReviewCardList } from "./_components/ReviewCardList";
+import { getActivityDetail } from "@/apis/activities.api";
 
-export default function ActivityDetailPage() {
+export default async function ActivityDetailPage() {
+  const data = await getActivityDetail(7129);
+  console.log(data);
+
   return (
     <div className="mt-6 md:mt-10 xl:mt-15 px-4 md:px-5 xl:px-0 xl:w-[1120px]  mx-auto grid grid-cols-1 xl:grid-rows-[400px] xl:grid-cols-[670px_410px] xl:gap-x-10">
       <div className="xl:col-start-1">
