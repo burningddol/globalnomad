@@ -22,8 +22,8 @@ export function useUserInfo() {
     resolver: zodResolver(userProfileFormSchema),
     mode: "onTouched",
     defaultValues: {
-      email: "",
       imageFile: null,
+      email: "",
       nickname: "",
     },
   });
@@ -54,9 +54,12 @@ export function useUserInfo() {
   useEffect(() => {
     if (user) {
       resetProfile({
+        imageFile: null,
         email: user.email ?? "",
         nickname: user.nickname ?? "",
       });
+
+      setPreviewUrl(user.profileImageUrl || "");
     }
   }, [user, resetProfile]);
 
@@ -75,6 +78,19 @@ export function useUserInfo() {
     const blobUrl = URL.createObjectURL(selectedFile);
     setPreviewUrl(blobUrl);
     setValue("imageFile", selectedFile, { shouldDirty: true });
+  };
+
+  const handleImageReset = () => {
+    if (previewUrl?.startsWith("blob:")) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    const originalUrl = user?.profileImageUrl || "";
+    setPreviewUrl(originalUrl);
+    setValue("imageFile", null, { shouldDirty: true });
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   useEffect(() => {
@@ -116,6 +132,8 @@ export function useUserInfo() {
       fileInputRef,
       onImageButtonClick: handleImageButtonClick,
       onImageFileChange: handleImageFileChange,
+      onImageReset: handleImageReset,
+      isImageChanged: previewUrl !== (user?.profileImageUrl || ""),
     },
   };
 }

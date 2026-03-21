@@ -12,7 +12,7 @@ export default function ProfileEditSection() {
     register,
     formState: { errors, isValid, isDirty },
   } = userProfileForm;
-  const { previewUrl, ...restProps } = imageProps;
+  const { previewUrl, onImageReset, isImageChanged, ...restProps } = imageProps;
   return (
     <>
       <div className="mt-[10px]">
@@ -43,6 +43,13 @@ export default function ProfileEditSection() {
               imageProps={restProps}
               isEditable={true}
             />
+            <Button
+              type="button"
+              onClick={onImageReset}
+              disabled={!isImageChanged}
+            >
+              되돌리기
+            </Button>
 
             <Input
               {...register("email")}
