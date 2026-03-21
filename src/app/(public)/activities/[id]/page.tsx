@@ -52,7 +52,9 @@ export default async function ActivityDetailPage({
       <div className="xl:col-start-2 xl:row-span-2 flex items-center justify-start flex-col">
         <ActivityHeader activity={activity} />
 
-        <div className="h-200 flex items-center hidden xl:block">캘린더란</div>
+        <div className="h-200 flex items-center hidden xl:block">
+          캘린더란
+        </div>
       </div>
 
       <div className="xl:col-start-1 flex flex-col self-start">
