@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find 'c:\\\\Users\\\\j\\\\Desktop\\\\코드잇\\\\상급 팀프로젝트\\\\21-sprint-1team-globalnomad' -name tailwind* -type f)"
+    ]
+  }
+}
