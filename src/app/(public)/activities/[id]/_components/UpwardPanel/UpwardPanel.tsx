@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { format } from "date-fns";
 import { cn } from "@/commons/utils/cn";
 import type { AvailableSchedule } from "@/types/activities";
@@ -9,8 +9,9 @@ import { DateTimeStep } from "./ui/DateTimeStep";
 import { HeadcountStep } from "./ui/HeadcountStep";
 import { SelectionInfo } from "./ui/SelectionInfo";
 import { PanelButton } from "./ui/PanelButton";
+import { useDragSheet } from "./lib/useDragSheet";
 
-const CLOSE_THRESHOLD = 80;
+type Step = "datetime" | "headcount";
 
 interface UpwardPanelProps {
   price: number;
@@ -19,10 +20,7 @@ interface UpwardPanelProps {
 
 export function UpwardPanel({ price, availableSchedules }: UpwardPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [step, setStep] = useState<1 | 2>(1);
-  const [dragY, setDragY] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const startYRef = useRef(0);
+  const [step, setStep] = useState<Step>("datetime");
 
   const {
     selectedDate,
@@ -38,30 +36,14 @@ export function UpwardPanel({ price, availableSchedules }: UpwardPanelProps) {
     reset,
   } = useReservation(availableSchedules, price);
 
-  const handlePointerDown = (e: React.PointerEvent) => {
-    startYRef.current = e.clientY;
-    setIsDragging(true);
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-  };
+  const closeSheet = () => setIsOpen(false);
 
-  const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDragging) return;
-    setDragY(Math.max(0, e.clientY - startYRef.current));
-  };
-
-  const handlePointerUp = () => {
-    if (dragY > CLOSE_THRESHOLD) setIsOpen(false);
-    setDragY(0);
-    setIsDragging(false);
-  };
+  const { dragY, isDragging, dragHandlers } = useDragSheet(closeSheet);
 
   const openSheet = () => {
-    setStep(1);
-    setDragY(0);
+    setStep("datetime");
     setIsOpen(true);
   };
-
-  const closeSheet = () => setIsOpen(false);
 
   const selectionLabel =
     selectedSlot && selectedDate
@@ -69,6 +51,20 @@ export function UpwardPanel({ price, availableSchedules }: UpwardPanelProps) {
       : null;
 
   const priceLabel = price === 0 ? "FREE" : `₩${price.toLocaleString()}`;
+
+  function getActionButton() {
+    if (!isOpen) {
+      return <PanelButton disabled={!selectedSlot}>예약하기</PanelButton>;
+    }
+    if (step === "datetime") {
+      return (
+        <PanelButton disabled={!selectedSlot} onClick={() => setStep("headcount")}>
+          확인
+        </PanelButton>
+      );
+    }
+    return <PanelButton onClick={closeSheet}>확인</PanelButton>;
+  }
 
   return (
     <>
@@ -95,16 +91,14 @@ export function UpwardPanel({ price, availableSchedules }: UpwardPanelProps) {
             "flex justify-center py-3 flex-shrink-0 touch-none",
             isDragging ? "cursor-grabbing" : "cursor-grab",
           )}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
+          {...dragHandlers}
         >
           <div className="w-10 h-1 bg-gray-300 rounded-full" />
         </div>
 
-        {/*컨텐츠 */}
+        {/* 컨텐츠 */}
         <div className="flex-1 overflow-y-auto px-4 no-scrollbar pb-4">
-          {step === 1 && (
+          {step === "datetime" && (
             <DateTimeStep
               scheduleMap={scheduleMap}
               selectedDate={selectedDate}
@@ -115,12 +109,12 @@ export function UpwardPanel({ price, availableSchedules }: UpwardPanelProps) {
               onSelectSlot={setSelectedSlot}
             />
           )}
-          {step === 2 && (
+          {step === "headcount" && (
             <HeadcountStep
               headcount={headcount}
               onDecrement={() => setHeadcount((n) => Math.max(1, n - 1))}
               onIncrement={() => setHeadcount((n) => n + 1)}
-              onBack={() => setStep(1)}
+              onBack={() => setStep("datetime")}
             />
           )}
         </div>
@@ -173,19 +167,7 @@ export function UpwardPanel({ price, availableSchedules }: UpwardPanelProps) {
           )}
         </div>
 
-        {!isOpen && (
-          <PanelButton disabled={!selectedSlot}>예약하기</PanelButton>
-        )}
-
-        {isOpen && step === 1 && (
-          <PanelButton disabled={!selectedSlot} onClick={() => setStep(2)}>
-            확인
-          </PanelButton>
-        )}
-
-        {isOpen && step === 2 && (
-          <PanelButton onClick={closeSheet}>확인</PanelButton>
-        )}
+        {getActionButton()}
       </div>
     </>
   );
