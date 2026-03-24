@@ -4,7 +4,6 @@ import HeroSection from "./_components/HeroSection";
 import BestItemsCarousel from "./_components/BestItemsCarousel";
 
 export default async function Home() {
-  // Fetch best activities once and split them across both sections.
   const bestResponse = await getActivityList(
     {
       method: "offset",
@@ -12,7 +11,7 @@ export default async function Home() {
       size: 13,
     },
     {
-      revalidate: 3600, // 1-hour ISR for Best items
+      revalidate: 3600,
       tags: ["best-activities"],
     },
   );
