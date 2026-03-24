@@ -27,20 +27,21 @@ export default function MyPageRootLayout({
   return (
     <>
       <Header />
-      <div className="flex max-w-[490px] mx-auto mt-[30px] md:max-w-[684px] md:min-h-[370px] md:mx-auto md:mt-[30px] xl:max-w-[980px] xl:min-h-[450px] xl:mx-auto xl:mt-[40px]">
-        <div className="flex-shrink-0 mx-auto">
-          <SideMenu isRootMyPage={isRootMyPage} currentPath={pathname} />
-        </div>
+      <div className="max-w-[1200px] mx-auto">
+        <div className="flex justify-center md:gap-[50px] mt-[30px] mb-[30px] xl:mt-[40px] xl:mb-[40px] px-[24px] md:px-[30px]">
+          <div className="flex-shrink-0">
+            <SideMenu isRootMyPage={isRootMyPage} currentPath={pathname} />
+          </div>
 
-        <div
-          className={cn(
-            isRootMyPage ? "hidden" : "block",
-            "w-full pb-[200px]",
-            "md:block md:ml-[50px] md:w-[456px] flex-1 md:pb-[250px]",
-            "xl:pb-[250px]",
-          )}
-        >
-          {children}
+          <div
+            className={cn(
+              isRootMyPage ? "hidden" : "block",
+              "flex-grow",
+              "w-full",
+            )}
+          >
+            {children}
+          </div>
         </div>
       </div>
       <Footer />
