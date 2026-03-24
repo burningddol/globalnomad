@@ -5,11 +5,9 @@ import { Input } from "@/components/ui/Input/Input";
 import { ProfileSection } from "../../_components/ProfileSection";
 import { Button } from "@/components/ui/Buttons/Button";
 import { cn } from "@/commons/utils/cn";
-import ProfileEditSectionSkeleton from "./ProfileEditSectionSkeleton";
 
 export default function ProfileEditSection() {
   const {
-    isLoading,
     userProfileForm,
     onProfileFormSubmit,
     onProfileFormReset,
@@ -21,8 +19,6 @@ export default function ProfileEditSection() {
     formState: { errors, isValid, isDirty },
   } = userProfileForm;
   const { previewUrl, ...restProps } = imageProps;
-
-  if (isLoading) return <ProfileEditSectionSkeleton />;
 
   return (
     <div>

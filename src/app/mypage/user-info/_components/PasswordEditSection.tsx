@@ -5,11 +5,9 @@ import { Input } from "@/components/ui/Input/Input";
 import { PasswordStrengthBar } from "@/components/ui/PasswordStrengthBar/PasswordStrengthBar";
 import { Button } from "@/components/ui/Buttons/Button";
 import { cn } from "@/commons/utils/cn";
-import PasswordEditSectionSkeleton from "./PasswordEditSectionSkeleton";
 
 export default function PasswordEditSection() {
   const {
-    isLoading,
     userPasswordForm,
     onPasswordFormSubmit,
     passwordScore,
@@ -19,8 +17,6 @@ export default function PasswordEditSection() {
     register,
     formState: { errors, isValid },
   } = userPasswordForm;
-
-  if (isLoading) return <PasswordEditSectionSkeleton />;
 
   return (
     <div>
