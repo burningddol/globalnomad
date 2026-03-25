@@ -44,7 +44,7 @@ export function ActivityHeader({ activity }: ActivityHeaderProps) {
         <span className="text-[13px] md:text-[14px] text-gray-600">
           {activity.category}
         </span>
-        {!isOwner && <Kebab onEdit={() => {}} onDelete={handleDelete} />}
+        {isOwner && <Kebab onEdit={() => {}} onDelete={handleDelete} />}
       </div>
 
       <h1 className=" text-[18px] md:text-[24px]  font-bold text-gray-950 leading-tight">
