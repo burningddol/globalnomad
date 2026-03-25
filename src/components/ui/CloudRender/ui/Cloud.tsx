@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF, Clone } from "@react-three/drei";
 import * as THREE from "three";
@@ -21,7 +21,7 @@ export function Cloud({
 }: CloudProps) {
   const { scene } = useGLTF("/glb/cloud.glb");
   const ref = useRef<THREE.Group>(null);
-  const offset = useRef(Math.random() * Math.PI * 2);
+  const [offset] = useState(() => Math.random() * Math.PI * 2);
 
   useEffect(() => {
     scene.traverse((child) => {
@@ -37,7 +37,7 @@ export function Cloud({
 
     ref.current.position.y =
       position[1] +
-      Math.sin(state.clock.elapsedTime * speed + offset.current) * 0.3;
+      Math.sin(state.clock.elapsedTime * speed + offset) * 0.3;
 
     const targetX = position[0] + mouseX.current * parallaxFactor;
     ref.current.position.x = THREE.MathUtils.lerp(
@@ -70,12 +70,12 @@ export function Cloud({
 }
 
 export function VelocityDecay({
-  mouseVelocity,
+  mouseVelocity: mouseVelocityRef,
 }: {
   mouseVelocity: { current: number };
 }) {
   useFrame(() => {
-    mouseVelocity.current *= 0.85;
+    mouseVelocityRef.current *= 0.85;
   });
   return null;
 }
