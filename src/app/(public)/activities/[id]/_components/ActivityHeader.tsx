@@ -1,19 +1,36 @@
-import { MapPin, Star, EllipsisVertical } from "lucide-react";
+"use client";
+
+import { MapPin, Star } from "lucide-react";
 
 import type { Activity } from "@/types/activities";
+import Kebab from "@/components/ui/Kebab/Kebab";
+import { useDialog } from "@/components/ui/Dialog";
+import { deleteMyActivity } from "@/apis/myActivities.api";
 
 interface ActivityHeaderProps {
   activity: Activity;
 }
 
 export function ActivityHeader({ activity }: ActivityHeaderProps) {
+  const { showDialog } = useDialog();
+
+  const handleDelete = () => {
+    showDialog({
+      type: "confirm",
+      content: "정말 삭제하시겠어요?",
+      onConfirm: async () => {
+        await deleteMyActivity(activity.id);
+      },
+    });
+  };
+
   return (
     <div className="w-full pb-5 border-b border-gray-200 xl:border-none mt-5 md:mt-6 xl:mt-0">
       <div className="flex items-start  justify-between">
         <span className="text-[13px] md:text-[14px] text-gray-600">
           {activity.category}
         </span>
-        <EllipsisVertical />
+        <Kebab onEdit={() => {}} onDelete={handleDelete} />
       </div>
 
       <h1 className=" text-[18px] md:text-[24px]  font-bold text-gray-950 leading-tight">

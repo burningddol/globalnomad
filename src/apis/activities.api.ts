@@ -5,6 +5,7 @@ import {
   Reviews,
 } from "@/types/activities";
 import { buildQueryString } from "@/commons/utils/buildQueryString";
+import axios from "./axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -57,4 +58,8 @@ export const getActivityReviews = async (
   }
 
   return res.json();
+};
+
+export const deleteMyActivity = async (activityId: number): Promise<void> => {
+  await axios.delete(`/my-activities/${activityId}`);
 };
