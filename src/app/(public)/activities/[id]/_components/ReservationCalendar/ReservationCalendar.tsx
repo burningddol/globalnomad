@@ -1,22 +1,24 @@
 "use client";
 
 import { Button } from "@/components/ui/Buttons/Button";
-import type { AvailableSchedule } from "@/types/activities";
 import { useReservation } from "./lib/useReservation";
+import { useRequireAuth } from "@/commons/hooks/useRequireAuth";
 import { DatePickerSection } from "./ui/DatePickerSection";
 import { TimeSlotSection } from "./ui/TimeSlotSection";
 import { HeadcountSection } from "./ui/HeadcountSection";
 
 interface ReservationCalendarProps {
-  availableSchedules: AvailableSchedule[];
+  activityId: number;
   price: number;
 }
 
 export function ReservationCalendar({
-  availableSchedules,
+  activityId,
   price,
 }: ReservationCalendarProps) {
   const {
+    currentMonth,
+    setCurrentMonth,
     selectedDate,
     selectedSlot,
     headcount,
@@ -27,7 +29,11 @@ export function ReservationCalendar({
     setSelectedSlot,
     setHeadcount,
     totalPrice,
-  } = useReservation(availableSchedules, price);
+    handleReservation,
+    isPending,
+  } = useReservation(activityId, price);
+
+  const requireAuth = useRequireAuth();
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl w-full overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
@@ -40,7 +46,6 @@ export function ReservationCalendar({
       </div>
 
       <div className="px-8 py-4 flex flex-col gap-0">
-        {/* 날짜 */}
         <div className="mb-8">
           <p className="text-base font-bold text-gray-950">날짜</p>
           <DatePickerSection
@@ -48,10 +53,11 @@ export function ReservationCalendar({
             selectedDate={selectedDate}
             toDateStr={toDateStr}
             onDayClick={handleDayClick}
+            month={currentMonth}
+            onMonthChange={setCurrentMonth}
           />
         </div>
 
-        {/* 참여 인원 수 */}
         <div className="flex justify-between items-center mb-5">
           <p className=" text-md font-bold text-gray-950 ">참여 인원 수</p>
           <HeadcountSection
@@ -61,7 +67,6 @@ export function ReservationCalendar({
           />
         </div>
 
-        {/* 예약 가능한 시간 */}
         <TimeSlotSection
           selectedDate={selectedDate}
           timeSlots={timeSlots}
@@ -70,7 +75,6 @@ export function ReservationCalendar({
         />
       </div>
 
-      {/* 총 합계 + 예약하기 */}
       <div className="border-t border-gray-300 mx-8 pb-6 pt-4 flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <span className="text-base font-bold text-gray-950">총 합계</span>
@@ -78,8 +82,12 @@ export function ReservationCalendar({
             ₩{totalPrice.toLocaleString()}
           </span>
         </div>
-        <Button size="md" disabled={!selectedSlot}>
-          예약하기
+        <Button
+          size="md"
+          disabled={!selectedSlot || isPending}
+          onClick={() => requireAuth(handleReservation)}
+        >
+          {isPending ? "예약 중..." : "예약하기"}
         </Button>
       </div>
     </div>
