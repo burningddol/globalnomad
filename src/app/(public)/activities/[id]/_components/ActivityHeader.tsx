@@ -1,6 +1,7 @@
 "use client";
 
 import { MapPin, Star } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import type { Activity } from "@/types/activities";
 import Kebab from "@/components/ui/Kebab/Kebab";
@@ -16,6 +17,7 @@ interface ActivityHeaderProps {
 }
 
 export function ActivityHeader({ activity }: ActivityHeaderProps) {
+  const router = useRouter();
   const { user } = useAuth();
   const { showDialog } = useDialog();
   const requireAuth = useRequireAuth();
@@ -38,13 +40,17 @@ export function ActivityHeader({ activity }: ActivityHeaderProps) {
 
   const isOwner = !!user && user.id === activity.userId;
 
+  const handleEdit = () => {
+    router.push(`/mypage/activity/edit/${activity.id}`);
+  };
+
   return (
     <div className="w-full pb-5 border-b border-gray-200 xl:border-none mt-5 md:mt-6 xl:mt-0">
       <div className="flex items-start  justify-between">
         <span className="text-[13px] md:text-[14px] text-gray-600">
           {activity.category}
         </span>
-        {!isOwner && <Kebab onEdit={() => {}} onDelete={handleDelete} />}
+        {isOwner && <Kebab onEdit={handleEdit} onDelete={handleDelete} />}
       </div>
 
       <h1 className=" text-[18px] md:text-[24px]  font-bold text-gray-950 leading-tight">
