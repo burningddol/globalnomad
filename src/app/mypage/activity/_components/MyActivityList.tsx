@@ -75,7 +75,7 @@ export default function MyActivityList() {
       )}
 
       {isEmpty && (
-        <div className="flex flex-col items-center justify-center mt-[60px]">
+        <div className="flex flex-col items-center justify-center mt-[43px] min-h-[500px]">
           <EmptyState message={"아직 등록한 체험이 없어요"} />
         </div>
       )}
