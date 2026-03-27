@@ -1,3 +1,5 @@
+"use client";
+
 import { DateInputPicker } from "@/components/ui/DateInputPicker/DateInputPicker";
 import { Input } from "@/components/ui/Input/Input";
 
