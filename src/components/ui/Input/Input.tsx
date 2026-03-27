@@ -11,7 +11,7 @@ const inputVariants = cva(
     "w-full inline-flex min-h-[54px] rounded-2xl items-center justify-center border border-gray-100 bg-white",
     "px-[20px] py-[16.5px] text-[16px] font-medium text-[#1F1F22] leading-none",
     "leading-[100%] tracking-[-0.025em]",
-    "placeholder-[#9FA0A7] focus-visible:outline-[#3D9EF2] focus-[#1F1F22] disabled:cursor-not-allowed disabled:opacity-50",
+    "placeholder:text-[16px] placeholder:font-medium placeholder-[#9FA0A7] focus-visible:outline-[#3D9EF2] focus-[#1F1F22] disabled:cursor-not-allowed disabled:opacity-50",
   ),
   {
     variants: {
@@ -34,6 +34,7 @@ export interface InputProps
   errorTxt?: string;
   ref?: React.Ref<HTMLInputElement>;
   extra?: React.ReactNode;
+  optional?: boolean;
 }
 /**
  * className?, type?, id?, labelTxt?, errorTxt?, disabled(boolean)
@@ -49,6 +50,7 @@ const Input = ({
   readOnly,
   ref,
   extra,
+  optional,
   ...props
 }: InputProps) => {
   const generatedId = React.useId();
@@ -73,7 +75,10 @@ const Input = ({
             "mb-[10px]",
           )}
         >
-          {labelTxt}
+          {labelTxt}{" "}
+          {optional && (
+            <span className="text-blue-400 text-[14px] ml-[5px]">(선택)</span>
+          )}
         </label>
       )}
       <div className="relative flex items-center">
@@ -86,8 +91,7 @@ const Input = ({
               className,
             }),
             isPasswordType && "pr-12",
-            readOnly &&
-              "focus-visible:outline-none cursor-default text-[#9FA0A7]",
+            readOnly && "focus-visible:outline-none text-[#9FA0A7]",
           )}
           ref={ref}
           disabled={disabled}
