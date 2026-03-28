@@ -7,7 +7,6 @@ import MyActivitySkeleton from "./MyActivitySkeleton";
 import useInfiniteScroll from "@/commons/hooks/useInfiniteScroll";
 import EmptyState from "@/components/ui/EmptyState/EmptyState";
 import { useDialog } from "@/components/ui/Dialog";
-import { useAuthError } from "@/commons/hooks/useAuthError";
 
 export default function MyActivityList() {
   const { showDialog } = useDialog();
@@ -46,8 +45,6 @@ export default function MyActivityList() {
       content: "데이터 로드 중 에러가 발생했습니다.",
     });
   }
-
-  useAuthError(isError, error, showDialog);
 
   return (
     <>

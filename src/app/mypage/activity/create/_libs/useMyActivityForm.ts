@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
-import { CATEGORY_OPTIONS } from "../consts/activities";
+import { CATEGORY_OPTIONS } from "../../../../../commons/consts/activities";
 import {
   createMyActivity,
   postUploadImageMyActivity,
@@ -25,7 +25,6 @@ import {
 } from "@/types/myActivities.type";
 import axios from "axios";
 import { useEffect } from "react";
-import { useAuthError } from "./useAuthError";
 import { PostcodeData } from "@/types/window";
 
 interface UseMyActivityFormProps {
@@ -141,8 +140,6 @@ export const useMyActivityForm = ({
     },
     onError: (error: unknown) => {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) return;
-
         const errorMessage =
           mode === "edit"
             ? "수정에 실패했습니다."
@@ -157,8 +154,6 @@ export const useMyActivityForm = ({
       }
     },
   });
-
-  useAuthError(isError, error, showDialog);
 
   const onSubmit = async (data: MyActivityFormValues) => {
     try {
@@ -274,8 +269,6 @@ export const useMyActivityForm = ({
     } catch (error) {
       console.error("체험 등록 실패:", error);
 
-      if (axios.isAxiosError(error) && error.response?.status === 401) return;
-
       showDialog({
         type: "alert",
         content: axios.isAxiosError(error)
@@ -291,7 +284,7 @@ export const useMyActivityForm = ({
     const handlePopState = () => {
       showDialog({
         type: "confirm",
-        content: "저장되지 않았습니다. 정말 뒤로 가시겠습니까?",
+        content: "저장되지 않았습니다.\n 정말 뒤로 가시겠습니까?",
         onConfirm: () => {
           window.removeEventListener("popstate", handlePopState);
           window.history.go(-2);

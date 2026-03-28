@@ -9,7 +9,6 @@ import { getMyReservationList } from "@/apis/myReservations.api";
 import { Button } from "@/components/ui/Buttons/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDialog } from "@/components/ui/Dialog";
-import { useAuthError } from "@/commons/hooks/useAuthError";
 
 export default function MyReservationList() {
   const searchParams = useSearchParams();
@@ -54,8 +53,6 @@ export default function MyReservationList() {
   const allReservations =
     data?.pages.flatMap((page) => page.reservations) ?? [];
   const isEmpty = !isLoading && allReservations.length === 0;
-
-  useAuthError(isError, error, showDialog);
 
   return (
     <>

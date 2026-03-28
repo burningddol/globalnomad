@@ -17,7 +17,7 @@ import { CATEGORY_OPTIONS } from "@/commons/consts/activities";
 import { Plus, Minus } from "lucide-react";
 import { cn } from "@/commons/utils/cn";
 import ScheduleTimeRow from "./ScheduleTimeRow";
-import { useMyActivityForm } from "@/commons/hooks/useMyActivityForm";
+import { useMyActivityForm } from "@/app/mypage/activity/create/_libs/useMyActivityForm";
 
 interface MyactivityFormProp {
   mode?: "register" | "edit";
