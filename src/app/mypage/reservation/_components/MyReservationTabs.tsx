@@ -43,8 +43,8 @@ export function MyReservationTabs({
       className={cn(
         "flex gap-[8px] mt-[14px]",
         "overflow-x-auto whitespace-nowrap flex-nowrap",
-        "no-scrollbar",
-        "pb-1",
+        "no-scrollbar pb-1",
+        "-mx-[20px] px-[20px]",
         isPending && "opacity-90",
       )}
     >

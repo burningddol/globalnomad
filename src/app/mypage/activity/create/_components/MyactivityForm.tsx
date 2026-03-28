@@ -193,7 +193,7 @@ export default function MyactivityForm({
                       </div>
                     </div>
 
-                    {index === 0 && (
+                    {index === 0 && fields.length > 1 && (
                       <div className="w-full h-[1px] bg-[#E0E0E5] my-[20px]"></div>
                     )}
                   </div>
