@@ -21,7 +21,6 @@ export default function MyReservationList() {
     isFetchingNextPage,
     isLoading,
     isError,
-    error,
   } = useInfiniteQuery({
     queryKey: ["myReservations", status],
     queryFn: ({ pageParam }) =>
