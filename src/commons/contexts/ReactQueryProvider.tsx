@@ -8,6 +8,13 @@ import {
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+interface ApiError {
+  status?: number;
+  response?: {
+    status?: number;
+  };
+}
+
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
@@ -20,15 +27,23 @@ function makeQueryClient() {
       },
     },
     queryCache: new QueryCache({
-      onError: (error: any) => {
-        if (error?.status === 401 || error?.response?.status === 401) {
+      onError: (error: unknown) => {
+        const err = error as ApiError;
+        if (
+          typeof window !== "undefined" &&
+          (err?.status === 401 || err?.response?.status === 401)
+        ) {
           window.location.href = "/auth/login";
         }
       },
     }),
     mutationCache: new MutationCache({
-      onError: (error: any) => {
-        if (error?.status === 401 || error?.response?.status === 401) {
+      onError: (error: unknown) => {
+        const err = error as ApiError;
+        if (
+          typeof window !== "undefined" &&
+          (err?.status === 401 || err?.response?.status === 401)
+        ) {
           window.location.href = "/auth/login";
         }
       },

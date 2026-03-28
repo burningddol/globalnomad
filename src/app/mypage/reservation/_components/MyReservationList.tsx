@@ -8,13 +8,11 @@ import Image from "next/image";
 import { getMyReservationList } from "@/apis/myReservations.api";
 import { Button } from "@/components/ui/Buttons/Button";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useDialog } from "@/components/ui/Dialog";
 
 export default function MyReservationList() {
   const searchParams = useSearchParams();
   const status = searchParams.get("status") || "all";
   const router = useRouter();
-  const { showDialog } = useDialog();
 
   const {
     data,

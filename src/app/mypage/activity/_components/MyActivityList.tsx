@@ -18,7 +18,6 @@ export default function MyActivityList() {
     isFetchingNextPage,
     isLoading,
     isError,
-    error,
   } = useInfiniteQuery({
     queryKey: ["myActivities"],
     queryFn: ({ pageParam }) => getMyActivityList({ cursorId: pageParam }),

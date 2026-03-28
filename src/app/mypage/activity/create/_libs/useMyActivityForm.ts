@@ -112,7 +112,7 @@ export const useMyActivityForm = ({
     }
   };
 
-  const { mutate, isPending, isError, error } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async (finalData: unknown) => {
       if (mode === "edit" && activityId) {
         return updateMyActivity(
