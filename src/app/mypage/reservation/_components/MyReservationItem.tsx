@@ -75,7 +75,7 @@ export default function MyReservationItem({
                 date={date}
                 startTime={startTime}
                 endTime={endTime}
-                totalPrice={totalPrice}
+                // totalPrice={totalPrice}
                 headCount={headCount}
                 reviewSubmitted={reviewSubmitted}
                 // TODO:: 추후 삭제
@@ -108,7 +108,7 @@ export default function MyReservationItem({
           date={date}
           startTime={startTime}
           endTime={endTime}
-          totalPrice={totalPrice}
+          // totalPrice={totalPrice}
           headCount={headCount}
           reviewSubmitted={reviewSubmitted}
           // TODO:: 추후 삭제
