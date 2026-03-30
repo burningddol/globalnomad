@@ -30,7 +30,7 @@ export default async function ReservationPage({
   });
 
   return (
-    <div className="flex flex-col gap-[50px] mb-[24px] md:mb-[225px]">
+    <div className="flex flex-col gap-[50px] mb-[24px] md:mb-[225px] w-full min-w-0">
       <header>
         <div
           className={cn(
@@ -55,7 +55,7 @@ export default async function ReservationPage({
         </Suspense>
       </header>
 
-      <section className="mt-[13px] md:mt-[30px] xl:mt-[30px]">
+      <section className="mt-[13px] md:mt-[30px] xl:mt-[30px] w-full min-w-0">
         <Suspense fallback={<div>목록 로딩 중...</div>}>
           <HydrationBoundary state={dehydrate(queryClient)}>
             <MyReservationList />

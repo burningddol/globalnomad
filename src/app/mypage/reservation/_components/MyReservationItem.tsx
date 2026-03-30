@@ -36,15 +36,9 @@ export default function MyReservationItem({
         {date}
       </div>
 
-      <div className="relative w-full h-[136px] md:h-[153px] xl:h-[181px] rounded-[24px] shadow-[0_4px_24px_0_rgba(156,180,202,0.2)] overflow-hidden bg-white">
-        <div
-          className={cn(
-            "absolute left-0 top-0 z-10 flex flex-col",
-            "w-[calc(100%-98px)] md:w-[calc(100%-130px)] xl:w-[calc(100%-155px)]",
-            "h-full text-gray-950 rounded-[24px] bg-white p-[20px]",
-          )}
-        >
-          <Link href={`/activities/${activity.id}`}>
+      <div className="flex w-full h-[136px] md:h-[153px] xl:h-[181px] rounded-[24px] shadow-[0_4px_24px_0_rgba(156,180,202,0.2)] overflow-hidden bg-white">
+        <div className="flex-1 flex flex-col p-[15px] md:p-[20px] min-w-0">
+          <Link href={`/activities/${activity.id}`} className="block min-w-0">
             <ReservationBadge status={status} />
             <h3 className="text-[16px] truncate xl:text-lg font-bold leading-none tracking-[-2.5%] mt-[8px]">
               {activity.title}
@@ -63,12 +57,10 @@ export default function MyReservationItem({
           </Link>
 
           <div className="flex justify-between items-end mt-auto">
-            <div className="mt-[8px] xl:mt-[12px]">
-              <span className="text-[16px] xl:text-lg font-extrabold text-gray-950">
-                <span className="w-[100px] truncate">
-                  ₩{formatPrice(totalPrice)}
-                </span>
-                <span className="font-medium text-[16px] leading-none tracking-[-2.5%] text-gray-500 ml-1">
+            <div className="mt-[8px] xl:mt-[12px] min-w-0">
+              <span className="text-[16px] xl:text-lg font-extrabold text-gray-950 flex items-center gap-1 min-w-0">
+                <span className="truncate">₩{formatPrice(totalPrice)}</span>
+                <span className="font-medium text-[14px] text-gray-500 flex-shrink-0 whitespace-nowrap">
                   {headCount} 명
                 </span>
               </span>
@@ -83,6 +75,7 @@ export default function MyReservationItem({
                 date={date}
                 startTime={startTime}
                 endTime={endTime}
+                // totalPrice={totalPrice}
                 headCount={headCount}
                 reviewSubmitted={reviewSubmitted}
                 // TODO:: 추후 삭제
@@ -92,8 +85,8 @@ export default function MyReservationItem({
           </div>
         </div>
 
-        <Link href={`/activities/${activity.id}`}>
-          <div className="absolute right-0 top-0 w-[136px] h-[136px] md:w-[153px] md:h-[153px] xl:w-[181px] xl:h-[181px]">
+        <Link href={`/activities/${activity.id}`} className="flex-shrink-0">
+          <div className="w-[100px] md:w-[130px] xl:w-[181px] h-full flex-shrink-0">
             <Image
               src={activity.bannerImageUrl}
               alt={activity.title}
@@ -115,6 +108,7 @@ export default function MyReservationItem({
           date={date}
           startTime={startTime}
           endTime={endTime}
+          // totalPrice={totalPrice}
           headCount={headCount}
           reviewSubmitted={reviewSubmitted}
           // TODO:: 추후 삭제

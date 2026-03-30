@@ -37,6 +37,7 @@ export default function MyPageRootLayout({
                 isRootMyPage ? "hidden" : "block",
                 "flex-grow",
                 "w-full",
+                "min-w-0",
               )}
             >
               {children}
