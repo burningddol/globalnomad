@@ -1,7 +1,9 @@
 "use client";
 
 import {
+  Mutation,
   MutationCache,
+  Query,
   QueryCache,
   QueryClient,
   QueryClientProvider,
@@ -15,14 +17,20 @@ interface ApiError {
   };
 }
 
-const handleAuthError = (error: unknown) => {
+const handleAuthError = (
+  error: unknown,
+  queryOrMutation?:
+    | Query<unknown, unknown, unknown>
+    | Mutation<unknown, unknown, unknown, unknown>,
+) => {
   const err = error as ApiError;
   const is401 = err?.status === 401 || err?.response?.status === 401;
 
+  if (queryOrMutation?.meta?.authRequired === false) return;
+
   if (typeof window !== "undefined" && is401) {
-    if (window.location.pathname.includes("/auth/login")) {
-      return;
-    }
+    if (window.location.pathname.includes("/auth/login")) return;
+
     window.location.href = "/auth/login";
   }
 };
@@ -39,10 +47,11 @@ function makeQueryClient() {
       },
     },
     queryCache: new QueryCache({
-      onError: handleAuthError,
+      onError: (error, query) => handleAuthError(error, query),
     }),
     mutationCache: new MutationCache({
-      onError: handleAuthError,
+      onError: (error, _variables, _context, mutation) =>
+        handleAuthError(error, mutation),
     }),
   });
 }
