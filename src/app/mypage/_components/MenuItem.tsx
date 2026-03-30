@@ -40,6 +40,7 @@ export const MenuItem = memo(
               <Icon
                 size={20}
                 className={cn(
+                  "w-[24px] h-[24px] px-[3px] py-[3px] md:w-[20px] md:h-[20px] md:px-[1.5px] md:py-[1.5px] xl:w-[24px] xl:h-[24px] xl:px-[2px] xl:py-[2px]",
                   "transition-colors",
                   isActive ? "text-blue-500" : "text-gray-600",
                 )}

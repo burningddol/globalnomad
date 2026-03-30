@@ -14,8 +14,8 @@ export interface ButtonProps
 const buttonVariants = cva(
   cn(
     "w-full inline-flex shrink-0 items-center justify-start",
-    "gap-[6px] md:gap-[8px] xl:gap-[11px]",
-    "text-[14px] md:text-[16px] font-medium tracking-[-2.5%] text-[#707177]",
+    "gap-[8px]",
+    "text-[16px] font-medium tracking-[-2.5%] text-[#707177]",
     "px-[20px] py-[10px] md:py-[13.5px] xl:py-[15px]",
     "rounded-[12px] md:rounded-[14px] xl:rounded-[16px]",
     "whitespace-nowrap transition-all outline-none",
