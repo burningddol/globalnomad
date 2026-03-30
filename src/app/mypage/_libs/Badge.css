@@ -3,7 +3,7 @@
     transform: translateX(-150%) skewX(-25deg);
   }
   100% {
-    transform: translateX(150%) skewX(-25deg);
+    transform: translateX(300%) skewX(-25deg);
   }
 }
 
@@ -22,7 +22,7 @@
   background: linear-gradient(
     to right,
     transparent,
-    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.4),
     transparent
   );
 

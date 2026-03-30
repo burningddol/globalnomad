@@ -21,7 +21,7 @@ export default function UserBadge() {
   if (isLoading) return null;
 
   return (
-    <div className="flex justify-center text-[15px] font-bold leading-none tracking-[-2.5%] text-[#333333] mt-[24px]">
+    <div className="flex justify-center text-[15px] font-bold leading-none tracking-[-2.5%] text-[#333333] mt-[10px]">
       <div
         className="animate-shine inline-flex items-center justify-center gap-[8px] rounded-full border border-[#EEEEEE] bg-[#F8F9FA] py-[6px] pl-[8px] pr-[12px] shadow-sm"
         style={{ "--shine-speed": shineSpeed } as React.CSSProperties}
