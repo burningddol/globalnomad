@@ -54,7 +54,7 @@ export default function MyReservationList() {
   return (
     <>
       {isLoading && (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-full">
           <MyReservationSkeleton count={5} />
         </div>
       )}
@@ -62,7 +62,7 @@ export default function MyReservationList() {
       {isError && <p>데이터 로드 중 에러가 발생했습니다.</p>}
 
       {allReservations.length > 0 && (
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full min-w-0">
           {allReservations.map((reservation, i) => (
             <MyReservationItem
               key={reservation.id}
