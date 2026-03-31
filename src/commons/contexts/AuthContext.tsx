@@ -22,6 +22,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     queryKey: ["user"],
     queryFn: getUserMe,
     retry: false,
+    meta: { authRequired: false },
   });
 
   const { mutate: logout } = useMutation({
