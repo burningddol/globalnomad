@@ -8,12 +8,14 @@ import axios from "./axios";
 export const getMyReservationList = async ({
   cursorId,
   status,
+  size = 5,
 }: {
   cursorId?: number | null;
   status?: string;
+  size?: number;
 }) => {
   const res = await axios.get<MyReservationsListType>("/my-reservations", {
-    params: { cursorId, size: 5, status },
+    params: { cursorId, size, status },
   });
   return res.data;
 };
