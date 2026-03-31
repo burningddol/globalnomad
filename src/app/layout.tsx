@@ -6,6 +6,7 @@ import { AuthProvider } from "@/commons/contexts/AuthContext";
 import { DialogProvider } from "@/components/ui/Dialog";
 import { ModalProvider } from "@/components/ui/Modal";
 import NotificationProvider from "@/commons/contexts/NotificationProvider";
+import { cookies } from "next/headers";
 
 const pretendard = localFont({
   src: [
@@ -68,6 +69,9 @@ export const metadata: Metadata = {
   },
 };
 
+const cookieStore = await cookies();
+const hasSession = cookieStore.has("accessToken");
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -77,7 +81,7 @@ export default function RootLayout({
     <html lang="ko" className={pretendard.variable}>
       <body className={pretendard.className}>
         <ReactQueryProvider>
-          <AuthProvider>
+          <AuthProvider initialSession={hasSession}>
             <DialogProvider>
               <ModalProvider>
                 {children}

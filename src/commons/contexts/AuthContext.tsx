@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { UserType } from "@/types/user.type";
 import { getUserMe, postLogout } from "@/apis/auth.api";
@@ -14,17 +14,21 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+export function AuthProvider({
+  children,
+  initialSession,
+}: {
+  children: ReactNode;
+  initialSession: boolean;
+}) {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const pathname = usePathname();
-
-  const isAuthFreePage = pathname.startsWith("/auth");
 
   const { data: user, isLoading } = useQuery({
     queryKey: ["user"],
     queryFn: getUserMe,
-    enabled: !isAuthFreePage,
+    enabled: initialSession || !!queryClient.getQueryData(["user"]),
+    initialData: initialSession ? undefined : null,
     retry: false,
     meta: { authRequired: false },
   });
