@@ -69,14 +69,14 @@ export const metadata: Metadata = {
   },
 };
 
-const cookieStore = await cookies();
-const hasSession = cookieStore.has("accessToken");
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const hasSession = cookieStore.has("accessToken");
+
   return (
     <html lang="ko" className={pretendard.variable}>
       <body className={pretendard.className}>
