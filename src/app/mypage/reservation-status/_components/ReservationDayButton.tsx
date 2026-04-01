@@ -42,7 +42,7 @@ export function ReservationDayButton({
       )}
     >
       {info && (
-        <span className="absolute top-1 right-11 size-[6px] rounded-full bg-red-500" />
+        <span className="absolute top-1 right-[25%] xl:right-[38%] size-[6px] rounded-full bg-red-500" />
       )}
       <span className="mb-1">{day.date.getDate()}</span>
       {info && (
