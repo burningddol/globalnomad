@@ -84,7 +84,15 @@ export function useReservation(
         const slot = daySchedule.times.find(
           (t) => t.id === initialData!.scheduleId,
         );
-        if (slot) setSelectedSlot(slot);
+        if (slot) {
+          const timer = setTimeout(() => {
+            setSelectedSlot((prev) => {
+              if (!prev) return slot;
+              return prev;
+            });
+          }, 0);
+          return () => clearTimeout(timer);
+        }
       }
     }
   }, [availableSchedules, initialData, isValidInitialDate]);
@@ -153,9 +161,11 @@ export function useReservation(
       queryClient.invalidateQueries({ queryKey: ["myReservations"] });
       showDialog({ type: "alert", content: "예약이 변경되었습니다." });
     },
-    onError: (error: any) => {
-      const msg = error.response?.data?.message || "서버 오류가 발생했습니다.";
-      showDialog({ type: "alert", content: msg });
+    onError: (error) => {
+      const message = axios.isAxiosError(error)
+        ? (error.response?.data?.message ?? "예약에 수정에 실패했습니다.")
+        : "예약에 수정에 실패했습니다.";
+      showDialog({ type: "alert", content: message });
     },
   });
 
