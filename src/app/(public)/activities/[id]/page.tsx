@@ -63,7 +63,7 @@ export default async function ActivityDetailPage({
           });
           await qc.prefetchQuery({
             queryKey: ["activity-reviews", activityId, page],
-            queryFn: () => getActivityReviews(activityId, page),
+            queryFn: () => getActivityReviews(activityId, page, 3),
           });
           return qc;
         })(),

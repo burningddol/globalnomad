@@ -32,14 +32,15 @@ class ErrorBoundaryBase extends Component<
   };
 
   render(): ReactNode {
-    if (!this.state.error) {
+    if (!this.state.hasError) {
       return this.props.children;
     }
 
     const { fallback } = this.props;
+    const error = this.state.error ?? new Error("Unknown error");
 
     if (typeof fallback === "function") {
-      return fallback(this.state.error, this.reset);
+      return fallback(error, this.reset);
     }
 
     return fallback;
