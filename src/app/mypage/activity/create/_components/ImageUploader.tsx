@@ -64,7 +64,7 @@ export default function ImageUploader({
         type="file"
         ref={fileInputRef}
         onChange={handleFileChange}
-        accept="image/*"
+        accept=".jpg, .jpeg, .png, .webp"
         multiple
         className="hidden"
       />
