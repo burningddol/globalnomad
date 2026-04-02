@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { getActivityReviews } from "@/apis/activities.api";
 import { Pagination } from "@/components/ui/Pagination/Pagination";
@@ -27,12 +27,10 @@ export function ReviewCardList({ activityId }: ReviewCardListProps) {
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
 
-  const { data: reviews } = useQuery({
+  const { data: reviews } = useSuspenseQuery({
     queryKey: ["activity-reviews", activityId, page],
     queryFn: () => getActivityReviews(activityId, page, SIZE),
   });
-
-  if (!reviews) return null;
 
   const totalPage = Math.ceil(reviews.totalCount / SIZE);
 

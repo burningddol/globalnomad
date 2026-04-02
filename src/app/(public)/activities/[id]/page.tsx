@@ -5,7 +5,7 @@ import { ActivityHeader } from "./_components/ActivityHeader";
 import { BannerImages } from "./_components/BannerImages";
 import { Description } from "./_components/Description";
 import KakaoMap from "./_components/KakaoMap";
-import { ReviewCardList } from "./_components/ReviewCardList";
+import { ReviewSection } from "./_components/ReviewSection";
 import { ReservationCalendar } from "./_components/ReservationCalendar/ReservationCalendar";
 import { getActivityDetail, getActivityReviews } from "@/apis/activities.api";
 import {
@@ -13,7 +13,6 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { Suspense } from "react";
 import { UpwardPanel } from "./_components/UpwardPanel/UpwardPanel";
 import { notFound } from "next/navigation";
 
@@ -60,7 +59,7 @@ export default async function ActivityDetailPage({
           });
           await qc.prefetchQuery({
             queryKey: ["activity-reviews", activityId, page],
-            queryFn: () => getActivityReviews(activityId, page),
+            queryFn: () => getActivityReviews(activityId, page, 3),
           });
           return qc;
         })(),
@@ -102,9 +101,7 @@ export default async function ActivityDetailPage({
         <KakaoMap address={activity.address} title={activity.title} />
 
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <Suspense fallback={null}>
-            <ReviewCardList activityId={activityId} />
-          </Suspense>
+          <ReviewSection activityId={activityId} />
         </HydrationBoundary>
       </div>
 
