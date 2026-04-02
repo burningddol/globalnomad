@@ -19,7 +19,9 @@ interface KakaoMapProps {
 
 export default function KakaoMap({ address, title }: KakaoMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [mapError, setMapError] = useState(false);
+  const [mapError, setMapError] = useState<Error | null>(null);
+
+  if (mapError) throw mapError;
 
   const handleLoad = () => {
     window.kakao.maps.load(() => {
@@ -76,7 +78,7 @@ export default function KakaoMap({ address, title }: KakaoMapProps) {
           });
           overlay.setMap(map);
         } else {
-          setMapError(true);
+          setMapError(new Error(`주소를 찾을 수 없습니다: ${address}`));
         }
       });
     });
@@ -86,7 +88,7 @@ export default function KakaoMap({ address, title }: KakaoMapProps) {
     <>
       <Script
         src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`}
-        onLoad={handleLoad}
+        onReady={handleLoad}
       />
       <span className="mt-4 md:mt-8 text-[16px] md:text-[18px] font-bold">
         오시는 길
@@ -95,25 +97,10 @@ export default function KakaoMap({ address, title }: KakaoMapProps) {
         <MapPin size={16} />
         {address}
       </span>
-      {mapError ? (
-        <div className="w-full h-[450px] rounded-2xl mb-5 md:mb-10 flex flex-col items-center justify-center gap-3 bg-gray-100 text-gray-500">
-          <MapPin size={32} className="text-gray-400" />
-          <p className="text-sm font-medium">주소를 찾을 수 없습니다.</p>
-          <a
-            href={`https://map.kakao.com/link/search/${encodeURIComponent(address)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-blue-500 underline"
-          >
-            카카오맵에서 직접 검색하기
-          </a>
-        </div>
-      ) : (
-        <div
-          ref={mapRef}
-          className="w-full h-[450px] rounded-2xl overflow-hidden mb-5 md:mb-10"
-        />
-      )}
+      <div
+        ref={mapRef}
+        className="w-full h-[450px] rounded-2xl overflow-hidden mb-5 md:mb-10"
+      />
       <hr />
     </>
   );
