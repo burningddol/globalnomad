@@ -26,6 +26,10 @@ function getErrorMessage(error: unknown, fallback: string): string {
   return fallback;
 }
 
+function toDateStr(d: Date): string {
+  return format(d, "yyyy-MM-dd");
+}
+
 function filterAvailableSchedules(
   data: AvailableSchedule[],
   todayStr: string,
@@ -97,11 +101,10 @@ export function useReservation(
 
   const setSelectedSlot = (slot: SelectedSlot | null) => setSelectedSlotId(slot?.id ?? null);
 
-  const scheduleMap = Object.fromEntries(
-    availableSchedules.map(({ date, times }) => [date, times]),
-  ) as Record<string, AvailableTime[]>;
-
-  const toDateStr = (d: Date) => format(d, "yyyy-MM-dd");
+  const scheduleMap = useMemo(
+    () => Object.fromEntries(availableSchedules.map(({ date, times }) => [date, times])) as Record<string, AvailableTime[]>,
+    [availableSchedules],
+  );
 
   const timeSlots: AvailableTime[] = selectedDate
     ? (scheduleMap[toDateStr(selectedDate)] ?? [])
