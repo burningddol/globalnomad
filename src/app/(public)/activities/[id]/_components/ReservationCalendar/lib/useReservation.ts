@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import type { AvailableTime } from "@/types/activities";
+import type { AvailableTime, AvailableSchedule } from "@/types/activities";
 import { getAvailableSchedule, createReservation } from "@/apis/activities.api";
 import { useDialog } from "@/components/ui/Dialog";
 import { patchUpdateMyReservation } from "@/apis/myReservations.api";
@@ -13,6 +13,42 @@ export interface SelectedSlot {
   id: number;
   startTime: string;
   endTime: string;
+}
+
+function parseStartHour(timeStr: string): number {
+  return parseInt(timeStr.split(":")[0], 10);
+}
+
+function getErrorMessage(error: unknown, fallback: string): string {
+  if (axios.isAxiosError(error)) {
+    return error.response?.data?.message ?? fallback;
+  }
+  return fallback;
+}
+
+function filterAvailableSchedules(
+  data: AvailableSchedule[],
+  todayStr: string,
+  currentHour: number,
+  initialData?: { date: string },
+): AvailableSchedule[] {
+  return data
+    .map((day): AvailableSchedule | null => {
+      // 예약 수정 모드: 기존 날짜는 시간 필터 없이 그대로 유지
+      if (initialData && day.date === initialData.date) return day;
+      // 과거 날짜 제거
+      if (day.date < todayStr) return null;
+      // 오늘: 이미 지난 시간대 제거
+      if (day.date === todayStr) {
+        return {
+          ...day,
+          times: day.times.filter((t) => parseStartHour(t.startTime) > currentHour),
+        };
+      }
+      // 미래 날짜: 그대로 유지
+      return day;
+    })
+    .filter((day): day is AvailableSchedule => day !== null && day.times.length > 0);
 }
 
 export function useReservation(
@@ -46,33 +82,8 @@ export function useReservation(
     queryFn: () => getAvailableSchedule(activityId, year, month),
     throwOnError: true,
     select: (data) => {
-      const now = new Date();
-      const todayStr = format(now, "yyyy-MM-dd");
-      const currentHour = now.getHours();
-
-      return data
-        .map((day) => {
-          if (initialData && day.date === initialData.date) {
-            return day;
-          }
-
-          if (day.date < todayStr) return null;
-
-          if (day.date === todayStr) {
-            return {
-              ...day,
-              times: day.times.filter((t) => {
-                const startHour = parseInt(t.startTime.split(":")[0], 10);
-                return startHour > currentHour;
-              }),
-            };
-          }
-          return day;
-        })
-        .filter(
-          (day): day is NonNullable<typeof day> =>
-            day !== null && day.times.length > 0,
-        );
+      const currentHour = new Date().getHours();
+      return filterAvailableSchedules(data, todayStr, currentHour, initialData);
     },
   });
 
@@ -140,10 +151,7 @@ export function useReservation(
       showDialog({ type: "alert", content: "예약이 완료되었습니다." });
     },
     onError: (error) => {
-      const message = axios.isAxiosError(error)
-        ? (error.response?.data?.message ?? "예약에 실패했습니다.")
-        : "예약에 실패했습니다.";
-      showDialog({ type: "alert", content: message });
+      showDialog({ type: "alert", content: getErrorMessage(error, "예약에 실패했습니다.") });
     },
   });
 
@@ -163,10 +171,7 @@ export function useReservation(
       showDialog({ type: "alert", content: "예약이 변경되었습니다." });
     },
     onError: (error) => {
-      const message = axios.isAxiosError(error)
-        ? (error.response?.data?.message ?? "예약 변경에 실패했습니다.")
-        : "예약 변경에 실패했습니다.";
-      showDialog({ type: "alert", content: message });
+      showDialog({ type: "alert", content: getErrorMessage(error, "예약 변경에 실패했습니다.") });
     },
   });
 
