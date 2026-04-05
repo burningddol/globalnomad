@@ -8,6 +8,7 @@ import {
   useRef,
   ReactNode,
 } from "react";
+import { flushSync } from "react-dom";
 import { AlertDialog } from "./variants/AlertDialog";
 import { ConfirmDialog } from "./variants/ConfirmDialog";
 
@@ -35,7 +36,8 @@ export function DialogProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const onClose = useCallback(() => {
-    setDialog(null);
+    // flushSync로 inert 제거를 DOM에 즉시 반영한 뒤 포커스 복원
+    flushSync(() => setDialog(null));
     triggerRef.current?.focus();
   }, []);
 
