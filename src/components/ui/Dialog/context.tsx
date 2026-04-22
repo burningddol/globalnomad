@@ -5,10 +5,9 @@ import {
   useState,
   useCallback,
   useEffect,
-  useRef,
   ReactNode,
 } from "react";
-import { flushSync, createPortal } from "react-dom";
+import { createPortal } from "react-dom";
 import { AlertDialog } from "./variants/AlertDialog";
 import { ConfirmDialog } from "./variants/ConfirmDialog";
 
@@ -28,17 +27,13 @@ const DialogContext = createContext<DialogContextValue | null>(null);
 
 export function DialogProvider({ children }: { children: ReactNode }) {
   const [dialog, setDialog] = useState<DialogOptions | null>(null);
-  const triggerRef = useRef<HTMLElement | null>(null);
 
   const showDialog = useCallback((options: DialogOptions) => {
-    triggerRef.current = document.activeElement as HTMLElement;
     setDialog(options);
   }, []);
 
   const onClose = useCallback(() => {
-    // flushSync로 inert 제거를 DOM에 즉시 반영한 뒤 포커스 복원
-    flushSync(() => setDialog(null));
-    triggerRef.current?.focus();
+    setDialog(null);
   }, []);
 
   const handleConfirm = useCallback(() => {

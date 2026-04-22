@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/commons/utils/cn";
 import { useId, ReactNode } from "react";
+import { useFocusTrap } from "@/commons/hooks/useFocusTrap";
 
 interface DialogRendererProps {
   icon?: ReactNode;
@@ -16,6 +17,7 @@ export function DialogRenderer({
   containerClass,
 }: DialogRendererProps) {
   const contentId = useId();
+  const panelRef = useFocusTrap<HTMLDivElement>(true);
 
   return (
     <div
@@ -25,8 +27,10 @@ export function DialogRenderer({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
     >
       <div
+        ref={panelRef}
+        tabIndex={-1}
         className={cn(
-          "flex w-[320px] md:w-[400px] flex-col items-center rounded-4xl bg-white py-6 md:py-8",
+          "flex w-[320px] md:w-[400px] flex-col items-center rounded-4xl bg-white py-6 md:py-8 focus:outline-none",
           containerClass,
         )}
       >
