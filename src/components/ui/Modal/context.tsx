@@ -38,11 +38,9 @@ export function ModalProvider({ children }: { children: ReactNode }) {
       if (e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", onKeyDown);
-    document.body.style.overflow = "hidden";
 
     return () => {
       document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = "";
     };
   }, [onClose, modal]);
 
