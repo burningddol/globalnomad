@@ -29,7 +29,7 @@ export function ModalRenderer({ content, onClose }: ModalRendererProps) {
           <button
             onClick={onClose}
             aria-label="닫기"
-            className="cursor-pointer text-xs font-bold text-gray-600 hover:text-black"
+            className="cursor-pointer rounded text-xs font-bold text-gray-600 outline-none hover:text-black focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2"
           >
             ✕
           </button>
